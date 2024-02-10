@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import os
 import sys
+import json
+import requests
 from typing import List, Union
 from datetime import datetime
-import requests
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -34,7 +35,7 @@ class KV:
             f'namespaces/{os.getenv("NAMESPACE_ID")}/values/{os.getenv("KEY_NAME")}'
     headers: dict = {
                 "Authorization": f'Bearer {os.getenv("BEARER_TOKEN")}',
-                "Accept": "application/json"
+                "Content-Type": "application/json"
             }
     result: dict = {}
 
@@ -44,7 +45,7 @@ class KV:
         return self.result
 
     def update(self, value) -> dict:
-        res = requests.put(self.url, headers=self.headers, data=value)
+        res = requests.put(self.url, headers=self.headers, data=json.dumps(value))
         return res.json()
 
 
@@ -75,7 +76,7 @@ def main():
     for p in processes:
         try:
             pid = int(proc.pid(p))
-            status[p] = [pid, now_ts, now_str]
+            status[p] = f'{pid}_{now_ts}_{now_str}'
         except ValueError:
             print(f'{p} not found.')
     # update KV with new status
