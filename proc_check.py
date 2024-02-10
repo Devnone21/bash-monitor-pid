@@ -4,6 +4,8 @@ import sys
 from typing import List, Union
 from datetime import datetime
 import requests
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class Proc:
