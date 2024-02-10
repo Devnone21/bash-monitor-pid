@@ -58,7 +58,7 @@ def main():
         return
     proc = Proc(data)
     kv = KV()
-    print(f'Num line of input: {len(proc.info)}')
+    print(f'Total processes num: {len(proc.info)}')
     now = datetime.now()
     now_ts = int(now.timestamp())
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -80,7 +80,7 @@ def main():
         except ValueError:
             print(f'{p} not found.')
     # update KV with new status
-    print(f'current status: {status}')
+    print(f'current status: {json.dumps(status, indent=2)}')
     res = kv.update(value=status)
     
 
