@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import sys
 from typing import List, Union
@@ -19,7 +19,7 @@ class Proc:
 
     def grep(self, s):
         return [line for line in self.info if s in line]
-    
+
     def pid(self, s):
         res = self.grep(s)
         try:
@@ -30,7 +30,7 @@ class Proc:
 
 class KV:
     """Class of CF KV storage api."""
-    url: str = f'https://api.cloudflare.com/client/v4/accounts/{os.getenv("ACCOUND_ID")}/storage/kv/' +\
+    url: str = f'https://api.cloudflare.com/client/v4/accounts/{os.getenv("ACCOUNT_ID")}/storage/kv/' +\
             f'namespaces/{os.getenv("NAMESPACE_ID")}/values/{os.getenv("KEY_NAME")}'
     headers: dict = {
                 "Authorization": f'Bearer {os.getenv("BEARER_TOKEN")}',
@@ -42,7 +42,7 @@ class KV:
         res = requests.get(self.url, headers=self.headers)
         self.result = res.json()
         return self.result
-    
+
     def update(self, value) -> dict:
         res = requests.put(self.url, headers=self.headers, data=value)
         return res.json()
@@ -57,7 +57,7 @@ def main():
         return
     proc = Proc(data)
     kv = KV()
-    # print(f'Num line of input: {len(proc.info)}')
+    print(f'Num line of input: {len(proc.info)}')
     now = datetime.now()
     now_ts = int(now.timestamp())
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
