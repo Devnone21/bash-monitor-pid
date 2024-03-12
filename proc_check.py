@@ -31,12 +31,12 @@ class Proc:
 
 class KV:
     """Class of CF KV storage api."""
-    url: str = f'https://api.cloudflare.com/client/v4/accounts/{os.getenv("ACCOUNT_ID")}/storage/kv/' +\
-            f'namespaces/{os.getenv("NAMESPACE_ID")}/values/{os.getenv("KEY_NAME")}'
+    url: str = f'https://api.cloudflare.com/client/v4/accounts/{os.getenv("ACCOUNT_ID")}/storage/kv/' + \
+               f'namespaces/{os.getenv("NAMESPACE_ID")}/values/{os.getenv("KEY_NAME")}'
     headers: dict = {
-                "Authorization": f'Bearer {os.getenv("BEARER_TOKEN")}',
-                "Content-Type": "application/json"
-            }
+        "Authorization": f'Bearer {os.getenv("BEARER_TOKEN")}',
+        "Content-Type": "application/json"
+    }
     result: dict = {}
 
     def query(self) -> dict:
@@ -63,9 +63,10 @@ def main():
     now_ts = int(now.timestamp())
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
     processes = [
-        'promtail', 
-        'grafana-server', 
+        'grafana-server',
         'redis-server',
+        'promtail',
+        'mongodb',
         'cadvisor',
         'portainer',
     ]
@@ -76,13 +77,15 @@ def main():
     for p in processes:
         try:
             pid = int(proc.pid(p))
-            status[p] = f'{pid}_{now_ts}_{now_str}'
+            # status[p] = f'{pid}_{now_ts}_{now_str}'
+            status[p] = {"pid": pid, "ts": now_ts, "last_seen": now_str}
         except ValueError:
             print(f'{p} not found.')
     # update KV with new status
-    print(f'current status: {json.dumps(status, indent=2)}')
-    res = kv.update(value=status)
-    
+    new_status = {k: v for k, v in status.items() if k in processes}
+    print(f'current status: {json.dumps(new_status, indent=2)}')
+    res = kv.update(value=new_status)
+
 
 if __name__ == "__main__":
     main()
