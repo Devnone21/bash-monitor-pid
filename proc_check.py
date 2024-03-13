@@ -41,12 +41,11 @@ def main():
     now_ts = int(now.timestamp())
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
     processes = [
-        'grafana-server',
         'redis-server',
+        'portainer',
         'promtail',
         'mongodb',
-        'cadvisor',
-        'portainer',
+        'grafana',
     ]
 
     # read previus status
