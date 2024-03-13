@@ -8,7 +8,7 @@ _logging_json = {
   "disable_existing_loggers": False,
   "formatters": {
     "default": {
-      "format": "%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+      "format": "%(asctime)s - %(levelname)s - %(message)s",
       "datefmt": "%Y-%m-%d %H:%M:%S"
     }
   },
@@ -39,4 +39,3 @@ _logging_json = {
 }
 logging.config.dictConfig(_logging_json)
 logger = logging.getLogger('pve.process')
-logger.setLevel(logging.DEBUG)

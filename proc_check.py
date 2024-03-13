@@ -56,7 +56,7 @@ def main():
         try:
             pid = int(proc.pid(p))
             status[p] = {"pid": pid, "ts": now_ts, "last_seen": now_str}
-            logger.info(f'pid: {pid}, ts: {now_ts}, last_seen: {now_str}')
+            logger.info(f'pve.{p} - pid: {pid}, ts: {now_ts}, last_seen: {now_str}')
         except ValueError:
             print(f'{p} not found.')
     # update KV with new status
