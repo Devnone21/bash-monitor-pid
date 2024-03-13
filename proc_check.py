@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
+from initial import logger
 import os
 import sys
 import json
 import requests
 from typing import List, Union
 from datetime import datetime
-from dotenv import load_dotenv
-load_dotenv()
 
 
 class Proc:
@@ -77,8 +76,8 @@ def main():
     for p in processes:
         try:
             pid = int(proc.pid(p))
-            # status[p] = f'{pid}_{now_ts}_{now_str}'
             status[p] = {"pid": pid, "ts": now_ts, "last_seen": now_str}
+            logger.info(f'pid: {pid}, ts: {now_ts}, last_seen: {now_str}')
         except ValueError:
             print(f'{p} not found.')
     # update KV with new status
