@@ -31,7 +31,7 @@ _logging_json = {
       "level": "CRITICAL",
       "propagate": True
     },
-    "xtb": {
+    "pve": {
       "handlers": ["rotating"],
       "level": "DEBUG"
     }
